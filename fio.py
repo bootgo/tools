@@ -50,7 +50,7 @@ def printResult():
 
 def Usage():
 	print('''
-用法： python fio.py size_4k size_128k /path/to/test_file"
+用法： ./fio size_4k size_128k /path/to/test_file"
 参数:
       size_4k      进行4k读写测试的文件大小。
       size_128k    进行128k读写测试的文件大小。
@@ -153,9 +153,6 @@ class FioTest(object):
        return cmd
 
     def runCmd(self, cmd):
-        #test=shlex.os.system(cmd)
-        #print(type(test))
-        #return test
         result_str = ''
         process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out = process.stdout
@@ -221,8 +218,6 @@ class FioTest(object):
         iops, bw = self.explain(result)
         self.expResult(iops, bw)
 
-
-
 if __name__ == '__main__':
 
     if len(sys.argv) != 4:
@@ -236,6 +231,7 @@ if __name__ == '__main__':
     if not os.path.isfile("/usr/bin/fio") :
         pre_setup = PreSetup()
         pre_setup.start()
+
 
     cmd1 = FioTest(name="randread-4k", rw="randread", iodepth=1, ioengine="libaio", direct=1, bs="4k", size=size4k,
                        runtime=60, filename=filename)
